@@ -1,0 +1,627 @@
+WindowManager:
+    MainScreen:
+    SecondScreen:
+
+<MainInterface>:
+    size_hint: None, None
+
+    RelativeLayout:
+        pos: self.parent.pos
+        size: self.parent.size
+
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 1,1,1,1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+            size: self.parent.size
+            orientation: "vertical"
+
+            spacing: 0
+
+            BoxLayout:
+                size_hint: 1, .15
+                orientation: "horizontal"
+
+                Widget:
+                    size_hint: .15, 1
+
+                Image:
+                    #size_hint: .34, 1
+                    source: "images/mainLogo1.jpg"
+
+                Widget:
+                    size_hint: .02, 1
+
+                Image:
+                    #size_hint: .34, 1
+                    source: "images/mainLogo2.jpg"
+
+                Widget:
+                    size_hint: .15, 1
+
+            Label:
+                size_hint: 1, .1
+                text: "Coronary Artery Calcium Scoring\nData Collection App"
+                font_size: 24
+                color: 0,0,0,1
+                text_size: self.size
+                halign: "center"
+
+            Label:
+                size_hint: 1, .05
+                markup: True
+                text: "[b]General[/b]"
+                font_size: 16
+                color: 0,0,0,1
+                text_size: self.size
+                halign: "left"
+
+            BoxLayout:
+                size_hint: 1, .04
+                orientation: "horizontal"
+
+                spacing: 3
+
+                Label:
+                    size_hint: .15, 1
+                    text: "CAC Study Date:"
+                    font_size: 16
+                    color: 0,0,0,1
+                    text_size: self.size
+
+                TextInput:
+                    id: dateInput
+                    size_hint: .15, 1
+                    multiline: False
+                    background_normal: "images/White.png"
+                    background_active: "images/White.png"
+                    cursor_color: 0,0,0,1
+                    foreground_color: 0,0,0,1
+
+                Widget:
+                    size_hint: .7, 1
+
+            Widget:
+                size_hint: 1, .03
+
+            Label:
+                size_hint: 1, .05
+                markup: True
+                text: "[b]Demographics[/b]"
+                font_size: 16
+                color: 0,0,0,1
+                text_size: self.size
+                halign: "left"
+
+            BoxLayout:
+                size_hint: 1, .05
+                orientation: "horizontal"
+
+                Label:
+                    size_hint: .12, 1
+                    markup: True
+                    text: "[b]Gender:[/b]"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "left"
+                    valign: "center"
+
+                Label:
+                    size_hint: .04, 1
+                    text: "Male"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: maleBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkMale()
+
+                Label:
+                    size_hint: .06, 1
+                    text: "Female"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: femaleBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkFemale()
+
+                Widget:
+                    size_hint: .74, 1
+
+            BoxLayout:
+                size_hint: 1, .05
+                orientation: "horizontal"
+
+                Label:
+                    size_hint: .12, 1
+                    markup: True
+                    text: "[b]Race:[/b]"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "left"
+                    valign: "center"
+
+                Label:
+                    size_hint: .08, 1
+                    text: "Caucasian"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: caucasianBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkCaucasian()
+
+                Label:
+                    size_hint: .14, 1
+                    text: "African American"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: africanAmericanBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkAfricanAmerican()
+
+                Label:
+                    size_hint: .07, 1
+                    text: "Hispanic"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: hispanicBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkHispanic()
+
+                Label:
+                    size_hint: .05, 1
+                    text: "Asian"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: asianBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkAsian()
+
+                Label:
+                    size_hint: .05, 1
+                    text: "Other"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: otherBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkOther()
+
+                Widget:
+                    size_hint: .35, 1
+
+            BoxLayout:
+                size_hint: 1, .04
+                orientation: "horizontal"
+
+                Label:
+                    size_hint: .12, 1
+                    markup: True
+                    text: "[b]Age:[/b]"
+                    color: 0,0,0,1
+                    font_size: 15
+                    text_size: self.size
+                    halign: "left"
+                    valign: "center"
+
+                TextInput:
+                    id: ageInput
+                    size_hint: .04, 1
+                    multiline: False
+                    background_normal: "images/White.png"
+                    background_active: "images/White.png"
+                    cursor_color: 0,0,0,1
+                    foreground_color: 0,0,0,1
+
+                Widget:
+                    size_hint: .84, 1
+
+            BoxLayout:
+                size_hint: 1, .05
+                orientation: "horizontal"
+
+                Label:
+                    size_hint: .15, 1
+                    markup: True
+                    text: "[b]Payment Method:[/b]"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "left"
+                    valign: "center"
+
+                Label:
+                    size_hint: .11, 1
+                    text: "Private Carrier"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: privateBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkPrivate()
+
+                Label:
+                    size_hint: .15, 1
+                    text: "Medicare/Medicaid"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: medicareBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkMedicare()
+
+                Label:
+                    size_hint: .07, 1
+                    text: "Self Pay"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: selfPayBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkSelfPay()
+
+                Label:
+                    size_hint: .08, 1
+                    text: "Employer"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: employerPaymentBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkEmployerPayment()
+
+                Widget:
+                    size_hint: .32, 1
+
+            BoxLayout:
+                size_hint: 1, .05
+                orientation: "horizontal"
+
+                Label:
+                    size_hint: .13, 1
+                    markup: True
+                    text: "[b]Referral Method:[/b]"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "left"
+                    valign: "center"
+
+                Label:
+                    size_hint: .05, 1
+                    text: "Self"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: selfReferralBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkSelfReferral()
+
+                Label:
+                    size_hint: .08, 1
+                    text: "Employer"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: employerReferralBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkEmployerReferral()
+
+                Label:
+                    size_hint: .08, 1
+                    text: "Physician"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: physicianReferralBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkPhysicianReferral()
+
+                Widget:
+                    size_hint: .57, 1
+
+            BoxLayout:
+                size_hint: 1, .05
+                orientation: "horizontal"
+
+                Label:
+                    size_hint: .16, 1
+                    markup: True
+                    text: "[b]Referring Provider:[/b]"
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "left"
+                    valign: "center"
+
+                Label:
+                    size_hint: .19, 1
+                    text: "Primary Care Physician"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: primaryCarePhysicianProviderBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkPrimaryCareProvider()
+
+                Label:
+                    size_hint: .1, 1
+                    text: "Cardiologist"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: cardiologistProviderBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkCardiologistProvider()
+
+                Label:
+                    size_hint: .15, 1
+                    text: "Mid-Level Provider"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: midLevelProviderBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkMidLevelProvider()
+
+                Label:
+                    size_hint: .07, 1
+                    text: "OB-GYN"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: obgynProviderBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkOBGYNProvider()
+
+                Widget:
+                    size_hint: .27, 1
+
+            Widget:
+                size_hint: 1, .01
+
+            Label:
+                id: errorMessage
+                size_hint: 1, .04
+                color: 1,0,0,1
+
+            Widget:
+                size_hint: 1, .01
+
+            BoxLayout:
+                size_hint: 1, .06
+                orientation: "horizontal"
+
+                Widget:
+                    size_hint: .45, 1
+
+                Button:
+                    size_hint: .1, 1
+                    text: "Next Page"
+                    background_normal: ""
+                    background_down: ""
+                    background_color: (.6,.6,.6, 1) if self.state == "normal" else (.5,.5,.5, 1)
+                    on_release:
+                        root.nextPage()
+
+                Widget:
+                    size_hint: .45, 1
+
+            Widget:
+                size_hint: 1, .06
+
+
+<MainBackground>:
+    AnchorLayout:
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        size: self.parent.size
+        anchor_x: 'center'
+        anchor_y: 'center'
+        MainInterface:
+            id: interface
+            size: 890, 695
+
+<MainScreen>:
+    name: "MainScreen"
+    FloatLayout:
+        MainBackground:
+            id: background
+            center: 0.5, 0.5
+
+
+
+<SecondInterface>:
+    size_hint: None, None
+
+    RelativeLayout:
+        pos: self.parent.pos
+        size: self.parent.size
+
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 1,1,1,1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+            size: self.parent.size
+            orientation: "vertical"
+
+            spacing: 0
+
+            BoxLayout:
+                size_hint: 1, .15
+                orientation: "horizontal"
+
+                Widget:
+                    size_hint: .15, 1
+
+                Image:
+                    #size_hint: .34, 1
+                    source: "images/mainLogo1.jpg"
+
+                Widget:
+                    size_hint: .02, 1
+
+                Image:
+                    #size_hint: .34, 1
+                    source: "images/mainLogo2.jpg"
+
+                Widget:
+                    size_hint: .15, 1
+
+            Label:
+                size_hint: 1, .1
+                text: "Coronary Artery Calcium Scoring\nData Collection App"
+                font_size: 24
+                color: 0,0,0,1
+                text_size: self.size
+                halign: "center"
+
+            Widget:
+                size_hint: 1, .75
+
+
+<SecondBackground>:
+    AnchorLayout:
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        size: self.parent.size
+        anchor_x: 'center'
+        anchor_y: 'center'
+        SecondInterface:
+            id: interface
+            size: 890, 695
+
+<SecondScreen>:
+    name: "SecondScreen"
+    FloatLayout:
+        SecondBackground:
+            id: background
+            center: 0.5, 0.5
