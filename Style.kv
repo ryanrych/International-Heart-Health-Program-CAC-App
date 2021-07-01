@@ -1,4 +1,5 @@
 WindowManager:
+    SecondScreen:
     MainScreen:
     SecondScreen:
 
@@ -67,8 +68,10 @@ WindowManager:
 
                 Label:
                     size_hint: .15, 1
-                    text: "CAC Study Date:"
-                    font_size: 16
+                    markup: True
+                    text: "[b]CAC Study Date:[/b]"
+                    font_size: 15
+                    text_size: self.size
                     color: 0,0,0,1
                     text_size: self.size
 
@@ -600,8 +603,409 @@ WindowManager:
                 text_size: self.size
                 halign: "center"
 
+            Label:
+                size_hint: 1, .05
+                markup: True
+                text: "[b]Clinical[/b]"
+                font_size: 16
+                color: 0,0,0,1
+                text_size: self.size
+                halign: "left"
+
             Widget:
-                size_hint: 1, .75
+                size_hint: 1, .01
+
+            BoxLayout:
+                size_hint: 1, .05
+                orientation: "horizontal"
+
+                Label:
+                    size_hint: .13, 1
+                    markup: True
+                    text: "[b]CAD Symptoms:[/b]"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "left"
+                    valign: "center"
+
+                Label:
+                    size_hint: .04, 1
+                    text: "Yes"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: symptomsYesBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkSymptomsYes()
+
+                Label:
+                    size_hint: .06, 1
+                    text: "No"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: symptomsNoBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkSymptomsNo()
+
+                Widget:
+                    size_hint: .73, 1
+
+            BoxLayout:
+                size_hint: 1, .05
+                orientation: "horizontal"
+
+                Label:
+                    size_hint: .1, 1
+                    markup: True
+                    text: "[b]Known CAD:[/b]"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "left"
+                    valign: "center"
+
+                Label:
+                    size_hint: .04, 1
+                    text: "Yes"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: knownYesBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkKnownCADYes()
+
+                Label:
+                    size_hint: .06, 1
+                    text: "No"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: knownNoBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkKnownCADNo()
+
+                Widget:
+                    size_hint: .76, 1
+
+            Widget:
+                size_hint: 1, .03
+
+            Label:
+                size_hint: 1, .05
+                markup: True
+                text: "[b]CAD Risk Factors:[/b]"
+                font_size: 16
+                color: 0,0,0,1
+                text_size: self.size
+                halign: "left"
+
+            Widget:
+                size_hint: 1, .01
+
+            GridLayout:
+                size_hint: 1, .1
+
+                cols: 9
+                rows: 2
+
+                Label:
+                    size_hint: .15, .5
+                    text: "Hypertension"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: hypertensionBox
+                    size_hint: .03, .5
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkHypertension()
+
+                Label:
+                    size_hint: .15, .5
+                    text: "Hyperlipidemia"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: hyperlipidemiaBox
+                    size_hint: .03, .5
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkHyperlipidemia()
+
+                Label:
+                    size_hint: .15, .5
+                    text: "Low HDL"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: lowHDLBox
+                    size_hint: .03, .5
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkLowHDL()
+
+                Label:
+                    size_hint: .15, .5
+                    text: "Tobacco Use"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: tobaccoBox
+                    size_hint: .03, .5
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkTobaccoUse()
+
+                Widget:
+                    size_hint: .29, .5
+
+                Label:
+                    size_hint: .15, .5
+                    text: "Diabetes"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: diabetesBox
+                    size_hint: .03, .5
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkDiabetes()
+
+                Label:
+                    size_hint: .15, .5
+                    text: "Family Hx"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: familyHxBox
+                    size_hint: .03, .5
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkFamilyHx()
+
+                Label:
+                    size_hint: .15, .5
+                    text: "Obesity"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: obesityBox
+                    size_hint: .03, .5
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkObesity()
+
+                Label:
+                    size_hint: .15, .5
+                    text: "None"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: noRiskBox
+                    size_hint: .03, .5
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkNone()
+
+                Widget:
+                    size_hint: .29, .5
+
+            Widget:
+                size_hint: 1, .03
+
+            BoxLayout:
+                size_hint: 1, .04
+                orientation: "horizontal"
+
+                Label:
+                    size_hint: .13, 1
+                    markup: True
+                    text: "[b]Radiation Dose:[/b]"
+                    color: 0,0,0,1
+                    font_size: 15
+                    text_size: self.size
+                    halign: "left"
+                    valign: "center"
+
+                TextInput:
+                    id: radiationDoseInput
+                    size_hint: .05, 1
+                    multiline: False
+                    background_normal: "images/White.png"
+                    background_active: "images/White.png"
+                    cursor_color: 0,0,0,1
+                    foreground_color: 0,0,0,1
+
+                Label:
+                    size_hint: .05, 1
+                    text: "mSv"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: mSvBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkMSV()
+
+                Label:
+                    size_hint: .05, 1
+                    text: "DLP"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: dlpBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkDLP()
+
+                Label:
+                    size_hint: .05, 1
+                    text: "CTDI"
+                    font_size: 15
+                    color: 0,0,0,1
+                    text_size: self.size
+                    halign: "right"
+                    valign: "center"
+
+                CheckBox:
+                    id: ctdiBox
+                    size_hint: .03, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkCTDI()
+
+                Widget:
+                    size_hint: .58, 1
+
+            Widget:
+                size_hint: 1, .07
+
+            BoxLayout:
+                size_hint: 1, .04
+                orientation: "horizontal"
+
+                Label:
+                    size_hint: .1, 1
+                    markup: True
+                    text: "[b]CAC Score:[/b]"
+                    color: 0,0,0,1
+                    font_size: 15
+                    text_size: self.size
+                    halign: "left"
+                    valign: "center"
+
+                TextInput:
+                    id: cacInput
+                    size_hint: .05, 1
+                    multiline: False
+                    background_normal: "images/White.png"
+                    background_active: "images/White.png"
+                    cursor_color: 0,0,0,1
+                    foreground_color: 0,0,0,1
+
+                Widget:
+                    size_hint: .85, 1
+
+            Widget:
+                size_hint: 1, .04
+
+            Label:
+                id: errorMessage
+                size_hint: 1, .04
+                color: 1,0,0,1
+
+            Widget:
+                size_hint: 1, .02
+
+            BoxLayout:
+                size_hint: 1, .06
+                orientation: "horizontal"
+
+                Widget:
+                    size_hint: .42, 1
+
+                Button:
+                    size_hint: .14, 1
+                    text: "Export to Excel"
+                    background_normal: ""
+                    background_down: ""
+                    background_color: (.6,.6,.6, 1) if self.state == "normal" else (.5,.5,.5, 1)
+                    on_release:
+                        root.exportData()
+
+                Widget:
+                    size_hint: .42, 1
+
+            Widget:
+                size_hint: 1, .06
 
 
 <SecondBackground>:

@@ -17,7 +17,7 @@ from kivy.uix.screenmanager import NoTransition
 
 from Client import Client
 
-
+client = Client()
 
 class WindowManager(ScreenManager):
     pass
@@ -224,7 +224,6 @@ class MainInterface(Widget):
         self.ids.errorMessage.text = ""
 
     def nextPage(self):
-        client = Client()
         if self.genderChecked and self.referralSourceChecked and self.providerChecked and self.raceChecked and self.paymentMethodChecked and self.ids.dateInput.text != "":
             try:
                 CACdate = self.ids.dateInput.text
@@ -252,7 +251,178 @@ class MainScreen(Screen):
 
 
 class SecondInterface(Widget):
-    pass
+
+    symptomsChecked = False
+    knownCADChecked = False
+    unitChecked = False
+
+    clientSymptoms = None
+    clientKnownCAD = None
+    riskFactors = {"hypertension":False,"hyperlipidemia":False,"low hdl":False,"tobacco use":False,"diabetes":False,"family hx":False,"obesity":False,"none":False}
+    clientUnit = None
+
+    def checkSymptomsYes(self):
+        if not self.ids.symptomsYesBox.active:
+            self.symptomsChecked = False
+            return
+        self.ids.symptomsNoBox.active = False
+        self.symptomsChecked = True
+        self.clientSymptoms = "Yes"
+
+    def checkSymptomsNo(self):
+        if not self.ids.symptomsNoBox.active:
+            self.symptomsChecked = False
+            return
+        self.ids.symptomsYesBox.active = False
+        self.symptomsChecked = True
+        self.clientSymptoms = "No"
+
+    def checkKnownCADYes(self):
+        if not self.ids.knownYesBox.active:
+            self.knownCADChecked = False
+            return
+        self.ids.knownNoBox.active = False
+        self.knownCADChecked = True
+        self.clientKnownCAD = "Yes"
+
+    def checkKnownCADNo(self):
+        if not self.ids.knownNoBox.active:
+            self.knownCADChecked = False
+            return
+        self.ids.knownYesBox.active = False
+        self.knownCADChecked = True
+        self.clientKnownCAD = "No"
+
+    def checkHypertension(self):
+        self.riskFactors["hypertension"] = self.ids.hypertensionBox.active
+
+        self.riskFactors["none"] = False
+        self.ids.noRiskBox.active = False
+
+    def checkHyperlipidemia(self):
+        self.riskFactors["hyperlipidemia"] = self.ids.hyperlipidemiaBox.active
+
+        self.riskFactors["none"] = False
+        self.ids.noRiskBox.active = False
+
+    def checkLowHDL(self):
+        self.riskFactors["low hdl"] = self.ids.lowHDLBox.active
+
+        self.riskFactors["none"] = False
+        self.ids.noRiskBox.active = False
+
+    def checkTobaccoUse(self):
+        self.riskFactors["tobacco use"] = self.ids.tobaccoBox.active
+
+        self.riskFactors["none"] = False
+        self.ids.noRiskBox.active = False
+
+    def checkDiabetes(self):
+        self.riskFactors["diabetes"] = self.ids.diabetesBox.active
+
+        self.riskFactors["none"] = False
+        self.ids.noRiskBox.active = False
+
+    def checkFamilyHx(self):
+        self.riskFactors["family hx"] = self.ids.familyHxBox.active
+
+        self.riskFactors["none"] = False
+        self.ids.noRiskBox.active = False
+
+    def checkObesity(self):
+        self.riskFactors["obesity"] = self.ids.obesityBox.active
+
+        self.riskFactors["none"] = False
+        self.ids.noRiskBox.active = False
+
+    def checkNone(self):
+        self.riskFactors["none"] = self.ids.noRiskBox.active
+        if self.ids.noRiskBox.active:
+            self.ids.hypertensionBox.active = False
+            self.ids.hyperlipidemiaBox.active = False
+            self.ids.lowHDLBox.active = False
+            self.ids.tobaccoBox.active = False
+            self.ids.diabetesBox.active = False
+            self.ids.familyHxBox.active = False
+            self.ids.obesityBox.active = False
+
+            self.riskFactors["hypertension"] = False
+            self.riskFactors["hyperlipidemia"] = False
+            self.riskFactors["low hdl"] = False
+            self.riskFactors["tobacco use"] = False
+            self.riskFactors["diabetes"] = False
+            self.riskFactors["family hx"] = False
+            self.riskFactors["obesity"] = False
+
+    def checkMSV(self):
+        if not self.ids.mSvBox.active:
+            self.unitChecked = False
+            return
+        self.ids.dlpBox.active = False
+        self.ids.ctdiBox.active = False
+        self.unitChecked = True
+        self.clientUnit = "mSv"
+
+    def checkDLP(self):
+        if not self.ids.dlpBox.active:
+            self.unitChecked = False
+            return
+        self.ids.mSvBox.active = False
+        self.ids.ctdiBox.active = False
+        self.unitChecked = True
+        self.clientUnit = "DLP"
+
+    def checkCTDI(self):
+        if not self.ids.ctdiBox.active:
+            self.unitChecked = False
+            return
+        self.ids.dlpBox.active = False
+        self.ids.mSvBox.active = False
+        self.unitChecked = True
+        self.clientUnit = "CTDI"
+
+    def startError(self):
+        self.ids.errorMessage.text = "Please fill out all sections"
+
+    def startDoseError(self):
+        self.ids.errorMessage.text = "Please enter an integer for the client's Radiation Dose"
+
+    def startScoreError(self):
+        self.ids.errorMessage.text = "Please enter an integer for the client's CAC Score"
+
+    def endError(self, dt):
+        self.ids.errorMessage.text = ""
+
+    def exportData(self):
+        if self.symptomsChecked and self.knownCADChecked and self.ids.radiationDoseInput.text != "" and self.ids.cacInput.text != "":
+            flag = False
+            for x in self.riskFactors:
+                if x:
+                    flag = True
+            if not flag:
+                self.startError()
+                Clock.schedule_once(self.endError, 3)
+                return
+
+            try:
+                radiationDose = int(self.ids.radiationDoseInput.text)
+            except:
+                self.startDoseError()
+                Clock.schedule_once(self.endError, 3)
+                return
+            try:
+                CACScore = int(self.ids.cacInput.text)
+            except:
+                self.startScoreError()
+                Clock.schedule_once(self.endError, 3)
+                return
+
+            client.secondPageConstructor(self.clientSymptoms, self.clientKnownCAD, self.riskFactors, radiationDose, CACScore)
+            #App.get_running_app().root.current = "ThirdScreen"
+
+        else:
+            self.startError()
+            Clock.schedule_once(self.endError, 3)
 
 class SecondBackground(Widget):
     pass
@@ -266,7 +436,7 @@ class CACapp(App):
     def build(self):
         Window.size=(950,700)
         self.icon = "favicon.png"
-        self.title = "Sense Configuration"
+        self.title = "International Cardiology Consultants Calcium Scoring App"
         return Builder.load_file("Style.kv")
 
 if __name__ == "__main__":

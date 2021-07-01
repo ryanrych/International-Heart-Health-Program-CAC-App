@@ -9,6 +9,12 @@ class Client:
         self.refferalSource = None
         self.refferingProvider = None
 
+        self.CADSymptoms = None
+        self.knownCAD = None
+        self.riskFactors = None
+        self.radiationDose = None
+        self.CACScore = None
+
     def firstPageConstructor(self, CACdate, gender, race, age, paymentMethod, refferalSource, referringProvider):
         self.CACdate = CACdate
         self.gender = gender
@@ -18,3 +24,9 @@ class Client:
         self.refferalSource = refferalSource
         self.refferingProvider = referringProvider
 
+    def secondPageConstructor(self, CADSypmtoms, knownCAD, riskFactors, radiationDose, CACScore):
+        self.CADSymptoms = CADSypmtoms
+        self.knownCAD = knownCAD
+        self.riskFactors = riskFactors
+        self.radiationDose = radiationDose
+        self.CACScore = CACScore
