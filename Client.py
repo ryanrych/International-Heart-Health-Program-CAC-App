@@ -15,6 +15,8 @@ class Client:
         self.radiationDose = None
         self.CACScore = None
 
+        self.path = None
+
     def firstPageConstructor(self, CACdate, gender, race, age, paymentMethod, refferalSource, referringProvider):
         self.CACdate = CACdate
         self.gender = gender

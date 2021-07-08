@@ -1,7 +1,7 @@
 WindowManager:
-    SecondScreen:
     MainScreen:
     SecondScreen:
+    ThirdScreen:
 
 <MainInterface>:
     size_hint: None, None
@@ -1027,5 +1027,101 @@ WindowManager:
     name: "SecondScreen"
     FloatLayout:
         SecondBackground:
+            id: background
+            center: 0.5, 0.5
+
+
+
+<ThirdInterface>:
+    size_hint: None, None
+
+    RelativeLayout:
+        pos: self.parent.pos
+        size: self.parent.size
+
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 1,1,1,1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+            size: self.parent.size
+            orientation: "vertical"
+
+            spacing: 0
+
+            BoxLayout:
+                size_hint: 1, .15
+                orientation: "horizontal"
+
+                Widget:
+                    size_hint: .15, 1
+
+                Image:
+                    #size_hint: .34, 1
+                    source: "images/mainLogo1.jpg"
+
+                Widget:
+                    size_hint: .02, 1
+
+                Image:
+                    #size_hint: .34, 1
+                    source: "images/mainLogo2.jpg"
+
+                Widget:
+                    size_hint: .15, 1
+
+            Label:
+                size_hint: 1, .1
+                text: "Coronary Artery Calcium Scoring\nData Collection App"
+                font_size: 24
+                color: 0,0,0,1
+                text_size: self.size
+                halign: "center"
+
+            Widget:
+                size_hint: 1, .1
+
+            Label:
+                id: pathLabel
+                size_hint: 1, .05
+                text: ""
+                font_size: 18
+                color: 0,0,0,1
+                text_size: self.size
+                halign: "center"
+
+            Label:
+                size_hint: 1, .05
+                text: "You may now close this window."
+                font_size: 18
+                color: 0,0,0,1
+                text_size: self.size
+                halign: "center"
+
+            Widget:
+                size_hint: 1, .6
+
+
+<ThirdBackground>:
+    AnchorLayout:
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        size: self.parent.size
+        anchor_x: 'center'
+        anchor_y: 'center'
+        ThirdInterface:
+            id: interface
+            size: 890, 695
+
+<ThirdScreen>:
+    name: "ThirdScreen"
+    FloatLayout:
+        ThirdBackground:
             id: background
             center: 0.5, 0.5

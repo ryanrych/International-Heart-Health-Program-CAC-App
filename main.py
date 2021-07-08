@@ -15,6 +15,9 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
 from kivy.uix.screenmanager import NoTransition
 
+import xlwt
+from xlwt import Workbook
+
 from Client import Client
 
 client = Client()
@@ -249,7 +252,6 @@ class MainScreen(Screen):
 
 
 
-
 class SecondInterface(Widget):
 
     symptomsChecked = False
@@ -385,7 +387,7 @@ class SecondInterface(Widget):
         self.ids.errorMessage.text = "Please fill out all sections"
 
     def startDoseError(self):
-        self.ids.errorMessage.text = "Please enter an integer for the client's Radiation Dose"
+        self.ids.errorMessage.text = "Please enter an number for the client's Radiation Dose"
 
     def startScoreError(self):
         self.ids.errorMessage.text = "Please enter an integer for the client's CAC Score"
@@ -405,7 +407,7 @@ class SecondInterface(Widget):
                 return
 
             try:
-                radiationDose = int(self.ids.radiationDoseInput.text)
+                radiationDose = float(self.ids.radiationDoseInput.text)
             except:
                 self.startDoseError()
                 Clock.schedule_once(self.endError, 3)
@@ -418,7 +420,54 @@ class SecondInterface(Widget):
                 return
 
             client.secondPageConstructor(self.clientSymptoms, self.clientKnownCAD, self.riskFactors, radiationDose, CACScore)
-            #App.get_running_app().root.current = "ThirdScreen"
+
+            wb = Workbook()
+
+            sheet = wb.add_sheet("Patient Data")
+            sheet.write(0, 0, "Study Date")
+            sheet.write(0, 1, client.CACdate)
+            sheet.write(1, 0, "Gender")
+            sheet.write(1, 1, client.gender)
+            sheet.write(2, 0, "Race")
+            sheet.write(2, 1, client.race)
+            sheet.write(3, 0, "Age")
+            sheet.write(3, 1, client.age)
+            sheet.write(4, 0, "Payment Method")
+            sheet.write(4, 1, client.paymentMethod)
+            sheet.write(5, 0, "Referral Source")
+            sheet.write(5, 1, client.refferalSource)
+            sheet.write(6, 0, "Referring Provider")
+            sheet.write(6, 1, client.refferingProvider)
+            sheet.write(7, 0, "CAD Symptoms")
+            sheet.write(7, 1, client.CADSymptoms)
+            sheet.write(8, 0, "Known CAD")
+            sheet.write(8, 1, client.knownCAD)
+            sheet.write(9, 0, "CAD Risk Factors")
+            sheet.write(9, 1, str(client.riskFactors))
+            sheet.write(10, 0, "Radiation Dose")
+            sheet.write(10, 1, client.radiationDose)
+            sheet.write(11, 0, "CAC Score")
+            sheet.write(11, 1, client.CACScore)
+            sheet.write(12, 0, "Risk Category")
+            if client.CACScore == 0:
+                sheet.write(12, 1, "No Disease")
+            elif client.CACScore < 100:
+                sheet.write(12, 1, "Early Stage Disease")
+            elif client.CACScore < 400:
+                sheet.write(12, 1, "Moderate Disease")
+            elif client.CACScore < 1000:
+                sheet.write(12, 1, "Likely Obstuctrive Disease")
+            else:
+                sheet.write(12, 1, "Critical Finding")
+
+            client.path = "Patient-CAC-Scores/" + client.CACdate.replace('/','-') + ".xls"
+            wb.save(client.path)
+
+            lastScreen = App.get_running_app().root.get_screen("ThirdScreen").ids.background.ids.interface
+
+            lastScreen.ids.pathLabel.text = "Your patient's data has been analyzed and stored here: " + client.path
+
+            App.get_running_app().root.current = "ThirdScreen"
 
         else:
             self.startError()
@@ -429,6 +478,18 @@ class SecondBackground(Widget):
 
 class SecondScreen(Screen):
     pass
+
+
+
+class ThirdInterface(Widget):
+    pass
+
+class ThirdBackground(Widget):
+    pass
+
+class ThirdScreen(Screen):
+    pass
+
 
 
 class CACapp(App):
