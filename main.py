@@ -198,6 +198,7 @@ class MainInterface(Widget):
         if not self.ids.selfReferralBox.active:
             self.referralSourceChecked = False
             return
+        self.ids.providerLayout.visible = False
         self.ids.employerReferralBox.active = False
         self.ids.physicianReferralBox.active = False
         self.referralSourceChecked = True
@@ -207,6 +208,7 @@ class MainInterface(Widget):
         if not self.ids.employerReferralBox.active:
             self.referralSourceChecked = False
             return
+        self.ids.providerLayout.visible = False
         self.ids.selfReferralBox.active = False
         self.ids.physicianReferralBox.active = False
         self.referralSourceChecked = True
@@ -215,7 +217,9 @@ class MainInterface(Widget):
     def checkPhysicianReferral(self):
         if not self.ids.physicianReferralBox.active:
             self.referralSourceChecked = False
+            self.ids.providerLayout.visible = False
             return
+        self.ids.providerLayout.visible = True
         self.ids.employerReferralBox.active = False
         self.ids.selfReferralBox.active = False
         self.referralSourceChecked = True
@@ -274,7 +278,7 @@ class MainInterface(Widget):
         self.ids.errorMessage.text = ""
 
     def nextPage(self):
-        if self.quarterChecked and self.genderChecked and self.referralSourceChecked and self.providerChecked and self.raceChecked and self.paymentMethodChecked:
+        if self.quarterChecked and self.genderChecked and self.referralSourceChecked and (self.providerChecked or not self.ids.providerLayout.visible) and self.raceChecked and self.paymentMethodChecked:
             try:
                 clientAge = int(self.ids.ageInput.text)
 

@@ -499,11 +499,15 @@ WindowManager:
                     size_hint: .57, 1
 
             BoxLayout:
+                id: providerLayout
                 size_hint: 1, .05
                 orientation: "horizontal"
 
+                visible: False
+
                 Label:
                     size_hint: .16, 1
+                    opacity: 1 if self.parent.visible else 0
                     markup: True
                     text: "[b]Referring Provider:[/b]"
                     color: 0,0,0,1
@@ -513,6 +517,7 @@ WindowManager:
 
                 Label:
                     size_hint: .19, 1
+                    opacity: 1 if self.parent.visible else 0
                     text: "Primary Care Physician"
                     font_size: 15
                     color: 0,0,0,1
@@ -523,12 +528,14 @@ WindowManager:
                 CheckBox:
                     id: primaryCarePhysicianProviderBox
                     size_hint: .03, 1
+                    opacity: 1 if self.parent.visible else 0
                     color: 0,0,0,1
                     on_press:
                         root.checkPrimaryCareProvider()
 
                 Label:
                     size_hint: .1, 1
+                    opacity: 1 if self.parent.visible else 0
                     text: "Cardiologist"
                     font_size: 15
                     color: 0,0,0,1
@@ -539,12 +546,14 @@ WindowManager:
                 CheckBox:
                     id: cardiologistProviderBox
                     size_hint: .03, 1
+                    opacity: 1 if self.parent.visible else 0
                     color: 0,0,0,1
                     on_press:
                         root.checkCardiologistProvider()
 
                 Label:
                     size_hint: .15, 1
+                    opacity: 1 if self.parent.visible else 0
                     text: "Mid-Level Provider"
                     font_size: 15
                     color: 0,0,0,1
@@ -555,12 +564,14 @@ WindowManager:
                 CheckBox:
                     id: midLevelProviderBox
                     size_hint: .03, 1
+                    opacity: 1 if self.parent.visible else 0
                     color: 0,0,0,1
                     on_press:
                         root.checkMidLevelProvider()
 
                 Label:
                     size_hint: .07, 1
+                    opacity: 1 if self.parent.visible else 0
                     text: "OB-GYN"
                     font_size: 15
                     color: 0,0,0,1
@@ -571,6 +582,7 @@ WindowManager:
                 CheckBox:
                     id: obgynProviderBox
                     size_hint: .03, 1
+                    opacity: 1 if self.parent.visible else 0
                     color: 0,0,0,1
                     on_press:
                         root.checkOBGYNProvider()
