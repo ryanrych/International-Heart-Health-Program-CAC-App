@@ -568,7 +568,12 @@ class SecondInterface(Widget):
                 j += 1
                 w_sheet.write(1, j, client.knownCAD)
                 j += 1
-                w_sheet.write(1, j, str(client.riskFactors))
+                factors = ""
+                for factor in client.riskFactors:
+                    if client.riskFactors[factor]:
+                        factors += factor + ";"
+                factors = factors[:-1]
+                w_sheet.write(1, j, factors)
                 j += 1
                 w_sheet.write(1, j, client.radiationDose)
                 j += 1
