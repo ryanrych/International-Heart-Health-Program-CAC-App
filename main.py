@@ -17,6 +17,9 @@ from kivy.uix.screenmanager import NoTransition
 
 import xlwt
 from xlwt import Workbook
+from xlutils.copy import copy
+from xlrd import open_workbook
+from os.path import isfile
 
 from Client import Client
 
@@ -26,18 +29,59 @@ class WindowManager(ScreenManager):
     pass
 
 class MainInterface(Widget):
-
+    quarterChecked = False
     genderChecked = False
     raceChecked = False
     paymentMethodChecked = False
     referralSourceChecked = False
     providerChecked = False
 
+    clientQuarter = None
     clientGender = None
     clientRace = None
     clientPaymentMethod = None
     clientReferralSource = None
     clientProvider = None
+
+    def checkQ1(self):
+        if not self.ids.q1Box.active:
+            self.quarterChecked = False
+            return
+        self.ids.q2Box.active = False
+        self.ids.q3Box.active = False
+        self.ids.q4Box.active = False
+        self.quarterChecked = True
+        self.clientQuarter = "1"
+
+    def checkQ2(self):
+        if not self.ids.q2Box.active:
+            self.quarterChecked = False
+            return
+        self.ids.q1Box.active = False
+        self.ids.q3Box.active = False
+        self.ids.q4Box.active = False
+        self.quarterChecked = True
+        self.clientQuarter = "2"
+
+    def checkQ3(self):
+        if not self.ids.q3Box.active:
+            self.quarterChecked = False
+            return
+        self.ids.q1Box.active = False
+        self.ids.q2Box.active = False
+        self.ids.q4Box.active = False
+        self.quarterChecked = True
+        self.clientQuarter = "3"
+
+    def checkQ4(self):
+        if not self.ids.q4Box.active:
+            self.quarterChecked = False
+            return
+        self.ids.q1Box.active = False
+        self.ids.q3Box.active = False
+        self.ids.q2Box.active = False
+        self.quarterChecked = True
+        self.clientQuarter = "4"
 
     def checkMale(self):
         if not self.ids.maleBox.active:
@@ -223,16 +267,31 @@ class MainInterface(Widget):
     def startAgeError(self):
         self.ids.errorMessage.text = "Please enter an integer for the client's age"
 
+    def startYearError(self):
+        self.ids.errorMessage.text = "Please enter a valid year"
+
     def endError(self, dt):
         self.ids.errorMessage.text = ""
 
     def nextPage(self):
-        if self.genderChecked and self.referralSourceChecked and self.providerChecked and self.raceChecked and self.paymentMethodChecked and self.ids.dateInput.text != "":
+        if self.quarterChecked and self.genderChecked and self.referralSourceChecked and self.providerChecked and self.raceChecked and self.paymentMethodChecked:
             try:
-                CACdate = self.ids.dateInput.text
                 clientAge = int(self.ids.ageInput.text)
 
-                client.firstPageConstructor(CACdate ,self.clientGender, self.clientRace, clientAge, self.clientPaymentMethod, self.clientReferralSource, self.clientProvider)
+                try:
+                    year = int(self.ids.yearInput.text)
+
+                    if year < 2000 or year > 3000:
+                        self.startYearError()
+                        Clock.schedule_once(self.endError, 3)
+                        return
+
+                except:
+                    self.startYearError()
+                    Clock.schedule_once(self.endError, 3)
+                    return
+
+                client.firstPageConstructor(year, self.clientQuarter, self.clientGender, self.clientRace, clientAge, self.clientPaymentMethod, self.clientReferralSource, self.clientProvider)
 
                 App.get_running_app().root.transition = NoTransition()
                 App.get_running_app().root.current = "SecondScreen"
@@ -421,47 +480,109 @@ class SecondInterface(Widget):
 
             client.secondPageConstructor(self.clientSymptoms, self.clientKnownCAD, self.riskFactors, radiationDose, CACScore)
 
-            wb = Workbook()
+            client.path = "Patient-CAC-Scores/Quarter" + client.quarter + "-" + str(client.year) + ".xls"
 
-            sheet = wb.add_sheet("Patient Data")
-            sheet.write(0, 0, "Study Date")
-            sheet.write(0, 1, client.CACdate)
-            sheet.write(1, 0, "Gender")
-            sheet.write(1, 1, client.gender)
-            sheet.write(2, 0, "Race")
-            sheet.write(2, 1, client.race)
-            sheet.write(3, 0, "Age")
-            sheet.write(3, 1, client.age)
-            sheet.write(4, 0, "Payment Method")
-            sheet.write(4, 1, client.paymentMethod)
-            sheet.write(5, 0, "Referral Source")
-            sheet.write(5, 1, client.refferalSource)
-            sheet.write(6, 0, "Referring Provider")
-            sheet.write(6, 1, client.refferingProvider)
-            sheet.write(7, 0, "CAD Symptoms")
-            sheet.write(7, 1, client.CADSymptoms)
-            sheet.write(8, 0, "Known CAD")
-            sheet.write(8, 1, client.knownCAD)
-            sheet.write(9, 0, "CAD Risk Factors")
-            sheet.write(9, 1, str(client.riskFactors))
-            sheet.write(10, 0, "Radiation Dose")
-            sheet.write(10, 1, client.radiationDose)
-            sheet.write(11, 0, "CAC Score")
-            sheet.write(11, 1, client.CACScore)
-            sheet.write(12, 0, "Risk Category")
-            if client.CACScore == 0:
-                sheet.write(12, 1, "No Disease")
-            elif client.CACScore < 100:
-                sheet.write(12, 1, "Early Stage Disease")
-            elif client.CACScore < 400:
-                sheet.write(12, 1, "Moderate Disease")
-            elif client.CACScore < 1000:
-                sheet.write(12, 1, "Likely Obstuctrive Disease")
+            if isfile(client.path):
+
+                rb = open_workbook(client.path, formatting_info=True)
+                r_sheet = rb.sheet_by_index(0)
+                wb = copy(rb)
+                w_sheet = wb.get_sheet(0)
+
+                current = "not empty"
+                i = 0
+                while current != "":
+                    try:
+                        current = r_sheet.cell(i,0)
+                        i += 1
+                    except:
+                        break
+
+                j = 0
+                w_sheet.write(i, j, client.gender)
+                j += 1
+                w_sheet.write(i, j, client.race)
+                j += 1
+                w_sheet.write(i, j, client.age)
+                j += 1
+                w_sheet.write(i, j, client.paymentMethod)
+                j += 1
+                w_sheet.write(i, j, client.refferalSource)
+                j += 1
+                w_sheet.write(i, j, client.refferingProvider)
+                j += 1
+                w_sheet.write(i, j, client.CADSymptoms)
+                j += 1
+                w_sheet.write(i, j, client.knownCAD)
+                j += 1
+                w_sheet.write(i, j, str(client.riskFactors))
+                j += 1
+                w_sheet.write(i, j, client.radiationDose)
+                j += 1
+                w_sheet.write(i, j, client.CACScore)
+                j += 1
+                if client.CACScore == 0:
+                    w_sheet.write(i, j, "No Disease")
+                elif client.CACScore < 100:
+                    w_sheet.write(i, j, "Early Stage Disease")
+                elif client.CACScore < 400:
+                    w_sheet.write(i, j, "Likely Obstructive Disease")
+
+                wb.save(client.path)
+
             else:
-                sheet.write(12, 1, "Critical Finding")
+                wb = Workbook()
+                w_sheet = wb.add_sheet("PatientData", cell_overwrite_ok=True)
 
-            client.path = "Patient-CAC-Scores/" + client.CACdate.replace('/','-') + ".xls"
-            wb.save(client.path)
+                w_sheet.write(0, 0, "Gender")
+                w_sheet.write(0, 1, "Race")
+                w_sheet.write(0, 2, "Age")
+                w_sheet.write(0, 3, "Payment Method")
+                w_sheet.write(0, 4, "Referral Source")
+                w_sheet.write(0, 5, "Referring Provider")
+                w_sheet.write(0, 6, "CAD Symptoms")
+                w_sheet.write(0, 7, "Known CAD")
+                w_sheet.write(0, 8, "Risk Factors")
+                w_sheet.write(0, 9, "Radiation")
+                w_sheet.write(0, 10, "CAC Score")
+                w_sheet.write(0, 11, "Disease Finding")
+
+                j = 0
+                w_sheet.write(1, j, client.gender)
+                j += 1
+                w_sheet.write(1, j, client.race)
+                j += 1
+                w_sheet.write(1, j, client.age)
+                j += 1
+                w_sheet.write(1, j, client.paymentMethod)
+                j += 1
+                w_sheet.write(1, j, client.refferalSource)
+                j += 1
+                w_sheet.write(1, j, client.refferingProvider)
+                j += 1
+                w_sheet.write(1, j, client.CADSymptoms)
+                j += 1
+                w_sheet.write(1, j, client.knownCAD)
+                j += 1
+                w_sheet.write(1, j, str(client.riskFactors))
+                j += 1
+                w_sheet.write(1, j, client.radiationDose)
+                j += 1
+                w_sheet.write(1, j, client.CACScore)
+                j += 1
+                if client.CACScore == 0:
+                    w_sheet.write(1, j, "No Disease")
+                elif client.CACScore < 100:
+                    w_sheet.write(1, j, "Early Stage Disease")
+                elif client.CACScore < 400:
+                    w_sheet.write(1, j, "Moderate Disease")
+                else:
+                    w_sheet.write(1, j, "Likely Obstructive Disease")
+
+
+                wb.save(client.path)
+
+            #wb.save(client.path)
 
             lastScreen = App.get_running_app().root.get_screen("ThirdScreen").ids.background.ids.interface
 
@@ -496,7 +617,7 @@ class CACapp(App):
 
     def build(self):
         Window.size=(950,700)
-        self.icon = "favicon.png"
+        self.icon = "images/icon.jpg"
         self.title = "International Cardiology Consultants Calcium Scoring App"
         return Builder.load_file("Style.kv")
 

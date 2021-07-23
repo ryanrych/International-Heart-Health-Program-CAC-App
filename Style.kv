@@ -67,17 +67,98 @@ WindowManager:
                 spacing: 3
 
                 Label:
-                    size_hint: .15, 1
+                    size_hint: .08, 1
                     markup: True
-                    text: "[b]CAC Study Date:[/b]"
+                    text: "Quarter 1"
                     font_size: 15
                     text_size: self.size
                     color: 0,0,0,1
+                    valign: "center"
+                    halign: "left"
+
+                CheckBox:
+                    id: q1Box
+                    size_hint: .02, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkQ1()
+
+                Widget:
+                    size_hint: .02, 1
+
+                Label:
+                    size_hint: .08, 1
+                    markup: True
+                    text: "Quarter 2"
+                    font_size: 15
                     text_size: self.size
+                    color: 0,0,0,1
+                    valign: "center"
+                    halign: "left"
+
+                CheckBox:
+                    id: q2Box
+                    size_hint: .02, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkQ2()
+
+                Widget:
+                    size_hint: .02, 1
+
+                Label:
+                    size_hint: .08, 1
+                    markup: True
+                    text: "Quarter 3"
+                    font_size: 15
+                    text_size: self.size
+                    color: 0,0,0,1
+                    valign: "center"
+                    halign: "left"
+
+                CheckBox:
+                    id: q3Box
+                    size_hint: .02, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkQ3()
+
+                Widget:
+                    size_hint: .02, 1
+
+                Label:
+                    size_hint: .08, 1
+                    markup: True
+                    text: "Quarter 4"
+                    font_size: 15
+                    text_size: self.size
+                    color: 0,0,0,1
+                    valign: "center"
+                    halign: "left"
+
+                CheckBox:
+                    id: q4Box
+                    size_hint: .02, 1
+                    color: 0,0,0,1
+                    on_press:
+                        root.checkQ4()
+
+                Widget:
+                    size_hint: .05, 1
+
+                Label:
+                    size_hint: .05, 1
+                    markup: True
+                    text: "[b]Year:[/b]"
+                    font_size: 15
+                    text_size: self.size
+                    color: 0,0,0,1
+                    valign: "center"
+                    halign: "left"
 
                 TextInput:
-                    id: dateInput
-                    size_hint: .15, 1
+                    id: yearInput
+                    size_hint: .06, 1
                     multiline: False
                     background_normal: "images/White.png"
                     background_active: "images/White.png"
@@ -85,7 +166,7 @@ WindowManager:
                     foreground_color: 0,0,0,1
 
                 Widget:
-                    size_hint: .7, 1
+                    size_hint: .38, 1
 
             Widget:
                 size_hint: 1, .03
@@ -104,7 +185,7 @@ WindowManager:
                 orientation: "horizontal"
 
                 Label:
-                    size_hint: .12, 1
+                    size_hint: .07, 1
                     markup: True
                     text: "[b]Gender:[/b]"
                     font_size: 15
@@ -146,14 +227,14 @@ WindowManager:
                         root.checkFemale()
 
                 Widget:
-                    size_hint: .74, 1
+                    size_hint: .79, 1
 
             BoxLayout:
                 size_hint: 1, .05
                 orientation: "horizontal"
 
                 Label:
-                    size_hint: .12, 1
+                    size_hint: .06, 1
                     markup: True
                     text: "[b]Race:[/b]"
                     font_size: 15
@@ -243,14 +324,14 @@ WindowManager:
                         root.checkOther()
 
                 Widget:
-                    size_hint: .35, 1
+                    size_hint: .41, 1
 
             BoxLayout:
                 size_hint: 1, .04
                 orientation: "horizontal"
 
                 Label:
-                    size_hint: .12, 1
+                    size_hint: .05, 1
                     markup: True
                     text: "[b]Age:[/b]"
                     color: 0,0,0,1
@@ -269,7 +350,7 @@ WindowManager:
                     foreground_color: 0,0,0,1
 
                 Widget:
-                    size_hint: .84, 1
+                    size_hint: .91, 1
 
             BoxLayout:
                 size_hint: 1, .05

@@ -1,7 +1,8 @@
 class Client:
 
     def __init__(self):
-        self.CACdate = None
+        self.year = None
+        self.quarter = None
         self.gender = None
         self.race = None
         self.age = None
@@ -17,8 +18,9 @@ class Client:
 
         self.path = None
 
-    def firstPageConstructor(self, CACdate, gender, race, age, paymentMethod, refferalSource, referringProvider):
-        self.CACdate = CACdate
+    def firstPageConstructor(self, year, quarter, gender, race, age, paymentMethod, refferalSource, referringProvider):
+        self.year = year
+        self.quarter = quarter
         self.gender = gender
         self.race = race
         self.age = age
