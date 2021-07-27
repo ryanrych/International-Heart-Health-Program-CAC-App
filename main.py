@@ -519,7 +519,12 @@ class SecondInterface(Widget):
                 j += 1
                 w_sheet.write(i, j, client.knownCAD)
                 j += 1
-                w_sheet.write(i, j, str(client.riskFactors))
+                factors = ""
+                for factor in client.riskFactors:
+                    if client.riskFactors[factor]:
+                        factors += factor + ";"
+                factors = factors[:-1]
+                w_sheet.write(i, j, factors)
                 j += 1
                 w_sheet.write(i, j, client.radiationDose)
                 j += 1
@@ -530,6 +535,8 @@ class SecondInterface(Widget):
                 elif client.CACScore < 100:
                     w_sheet.write(i, j, "Early Stage Disease")
                 elif client.CACScore < 400:
+                    w_sheet.write(i, j, "Moderate Disease")
+                else:
                     w_sheet.write(i, j, "Likely Obstructive Disease")
 
                 wb.save(client.path)
